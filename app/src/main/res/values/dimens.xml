@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tree_view_item_left_radius">15dp</dimen>
+    <dimen name="tree_view_item_tight_radius">70dp</dimen>
+</resources>

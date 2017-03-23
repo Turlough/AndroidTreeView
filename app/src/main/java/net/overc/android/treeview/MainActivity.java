@@ -61,6 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.name)
     public void showChildren(){
 
-        new TreeViewPopup(this, provider.get(1)).show();
+        new TreeViewPopup(title, provider.get(1)).show();
     }
 }

@@ -1,5 +1,8 @@
 package net.overc.android.treeview;
 
+import android.content.Context;
+import android.view.View;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +18,7 @@ public class ViewModel {
     private ViewModel parent;
     private boolean expanded =false;
     private boolean selected = false;
+    private View titleView;
 
     public ViewModel(Model model) {
         this.model = model;
@@ -38,6 +42,22 @@ public class ViewModel {
 
     public Long getParentId() {
         return model.getParentId();
+    }
+
+    public View getTitleView() {
+        return titleView;
+    }
+
+    public void setTitleView(View view) {
+        this.titleView = view;
+        this.titleView.setOnClickListener(v ->{
+            if(isLeaf()){
+                select();
+                return;
+            }
+            Context context = v.getContext();
+            new TreeViewPopup( v, this).show();
+        });
     }
 
     public void addChild(ViewModel viewModel){

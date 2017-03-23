@@ -46,6 +46,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
         position = holder.getAdapterPosition();
         ViewModel model = models.get(position);
+        model.setTitleView(holder.tvTitle);
 
         holder.tvTitle.setText(model.getName());
         LinearLayoutManager manager = new LinearLayoutManager(context);
