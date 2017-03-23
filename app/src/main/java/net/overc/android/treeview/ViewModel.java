@@ -1,6 +1,8 @@
 package net.overc.android.treeview;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import java.util.Collection;
@@ -52,7 +54,14 @@ public class ViewModel {
         this.titleView = view;
         this.titleView.setOnClickListener(v ->{
             if(isLeaf()){
-                select();
+                if(!selected){
+                    select();
+                    v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_pressed);
+                } else {
+                    setSelected(false);
+                    v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_not_pressed);
+                }
+
                 return;
             }
             Context context = v.getContext();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Collection;
 
@@ -27,7 +28,7 @@ public class TreeViewPopup extends Dialog {
     ViewTreeProvider provider;
 
     @BindView(R.id.name)
-    Button title;
+    TextView title;
     @BindView(R.id.children)
     RecyclerView children;
 

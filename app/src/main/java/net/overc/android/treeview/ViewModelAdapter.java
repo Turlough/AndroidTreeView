@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,7 +101,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
     static class PermissionHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSelect;
-        Button tvTitle;
+        TextView tvTitle;
         View rootView;
         RecyclerView lvChildren;
 
@@ -109,7 +110,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
             super(itemView);
             rootView = itemView;
 //            ivSelect = (ImageView) itemView.findViewById(R.id.iv_item_permissions);
-            tvTitle = (Button) itemView.findViewById(R.id.name);
+            tvTitle = (TextView) itemView.findViewById(R.id.name);
             lvChildren = (RecyclerView) itemView.findViewById(R.id.children);
 
 

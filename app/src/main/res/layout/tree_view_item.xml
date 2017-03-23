@@ -6,12 +6,12 @@
                 android:layout_height="wrap_content"
                 tools:context="net.overc.android.treeview.MainActivity">
 
-    <Button
+    <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="20dp"
         android:background="@drawable/tree_view_item_name_drawable_not_pressed"
-        android:textColor="@android:drawable/btn_dialog"
         android:text="NAME"/>
 
     <android.support.v7.widget.RecyclerView
