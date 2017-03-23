@@ -1,15 +1,19 @@
 package net.overc.android.treeview;
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
 import android.widget.Button;
 
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static rx.Observable.from;
 
@@ -52,5 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setData(provider.getTopLevelItems());
         adapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.name)
+    public void showChildren(){
+
+        new TreeViewPopup(this, provider.get(1)).show();
     }
 }
