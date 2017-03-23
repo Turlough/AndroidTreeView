@@ -64,7 +64,7 @@ public class ViewModel {
 
                 return;
             }
-            Context context = v.getContext();
+
             new TreeViewPopup( v, this).show();
         });
     }
