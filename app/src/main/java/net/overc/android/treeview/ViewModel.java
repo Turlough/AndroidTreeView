@@ -1,5 +1,6 @@
 package net.overc.android.treeview;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,8 +11,10 @@ import java.util.Set;
 public class ViewModel {
 
    private Model model;
-   private Set<ViewModel> children = new HashSet<>();
+   private Collection<ViewModel> children = new HashSet<>();
     private ViewModel parent;
+    private boolean expanded =false;
+    private boolean selected = false;
 
     public ViewModel(Model model) {
         this.model = model;
@@ -41,7 +44,51 @@ public class ViewModel {
         children.add(viewModel);
     }
 
-    public Boolean isNotRoot() {
-        return getParentId() != null;
+    public boolean isNotRoot() {
+        return ! isRoot();
+    }
+
+    public boolean isRoot(){
+        return getParentId() == null;
+    }
+
+    public Model getModel() {
+
+        return model;
+    }
+
+    public void setModel(Model model) {
+
+        this.model = model;
+    }
+
+    public Collection<ViewModel> getChildren() {
+
+        return children;
+    }
+
+    public void setChildren(Set<ViewModel> children) {
+
+        this.children = children;
+    }
+
+    public boolean isExpanded() {
+
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+
+        this.expanded = expanded;
+    }
+
+    public boolean isSelected() {
+
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+
+        this.selected = selected;
     }
 }

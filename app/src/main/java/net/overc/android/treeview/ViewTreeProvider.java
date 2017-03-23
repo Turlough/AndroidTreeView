@@ -17,6 +17,7 @@ class ViewTreeProvider {
 
     private static final ViewTreeProvider ourInstance = new ViewTreeProvider();
 
+
     static ViewTreeProvider getInstance() {
         return ourInstance;
     }
@@ -41,5 +42,13 @@ class ViewTreeProvider {
                     model.setParent(models.get(model.getParentId()));
                     model.getParent().addChild(model);
                 });
+    }
+
+    public Collection<ViewModel> getTopLevelItems() {
+        return from(models.values())
+                .filter(ViewModel::isRoot)
+                .toList()
+                .toBlocking()
+                .first();
     }
 }
