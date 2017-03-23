@@ -74,7 +74,7 @@ public class ViewModel {
 
     public boolean isExpanded() {
 
-        return expanded;
+        return !isLeaf() && expanded;
     }
 
     public void setExpanded(boolean expanded) {

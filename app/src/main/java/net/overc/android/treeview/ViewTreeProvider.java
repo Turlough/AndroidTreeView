@@ -51,4 +51,11 @@ class ViewTreeProvider {
                 .toBlocking()
                 .first();
     }
+    public Collection<ViewModel> getAllItems() {
+        return from(models.values())
+                .toList()
+                .toBlocking()
+                .first();
+    }
+
 }

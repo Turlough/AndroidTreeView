@@ -2,6 +2,7 @@ package net.overc.android.treeview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,15 +48,15 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
         ViewModel model = models.get(position);
 
         holder.tvTitle.setText(model.getName());
-//        LinearLayoutManager manager = new LinearLayoutManager(context);
-//        manager.setOrientation(LinearLayoutManager.VERTICAL);
-//        holder.lvChildren.setLayoutManager(manager);
-//
-//        if (model.isExpanded()) {
-//            showChildren(holder, model);
-//        } else {
-//            holder.lvChildren.setVisibility(View.GONE);
-//        }
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        holder.lvChildren.setLayoutManager(manager);
+
+        if (model.isExpanded()) {
+            showChildren(holder, model);
+        } else {
+            holder.lvChildren.setVisibility(View.GONE);
+        }
 
     }
 
@@ -92,7 +93,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
         //holder.tvTitle.setText(viewModel.getName());
 
         childAdapter.notifyDataSetChanged();
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     static class PermissionHolder extends RecyclerView.ViewHolder {

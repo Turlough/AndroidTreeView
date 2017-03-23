@@ -44,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         children.setLayoutManager(manager);
+
         from(provider.getTopLevelItems())
                 .forEach(model -> model.setExpanded(false));
+//        from(provider.getAllItems())
+//                .forEach(model -> model.setExpanded(true));
 
         adapter.setData(provider.getTopLevelItems());
         adapter.notifyDataSetChanged();
