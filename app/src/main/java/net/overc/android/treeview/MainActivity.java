@@ -4,19 +4,22 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.widget.Button;
 
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static rx.Observable.from;
+
+
 public class MainActivity extends AppCompatActivity {
 
     ViewTreeProvider provider;
 
     @BindView(R.id.name)
-    TextView title;
+    Button title;
     @BindView(R.id.children)
     RecyclerView children;
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -35,11 +39,14 @@ public class MainActivity extends AppCompatActivity {
         provider = ViewTreeProvider.getInstance();
         provider.buildTree(models);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        children.setLayoutManager(layoutManager);
-
         adapter = new ViewModelAdapter(this);
         children.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        children.setLayoutManager(manager);
+        from(provider.getTopLevelItems())
+                .forEach(model -> model.setExpanded(false));
+
         adapter.setData(provider.getTopLevelItems());
         adapter.notifyDataSetChanged();
     }

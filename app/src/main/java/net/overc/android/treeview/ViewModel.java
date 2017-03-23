@@ -82,6 +82,14 @@ public class ViewModel {
         this.expanded = expanded;
     }
 
+    public void select(){
+        setSelected(true);
+    }
+
+    public void expand(){
+        setExpanded(true);
+    }
+
     public boolean isSelected() {
 
         return selected;
@@ -91,4 +99,10 @@ public class ViewModel {
 
         this.selected = selected;
     }
+
+    public boolean isLeaf() {
+        return children.size() == 0;
+    }
+
+
 }
