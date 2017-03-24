@@ -16,16 +16,27 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:clickable="false"
+        android:layout_centerVertical="true"
         android:padding="8dp"/>
 
     <TextView
         android:id="@+id/tv_item_permissions_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-
         android:layout_toEndOf="@id/iv_item_permissions"
         android:paddingStart="15dp"
         android:text="NAME"/>
+
+    <ImageView
+        android:id="@+id/chevron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:paddingEnd="15dp"
+        android:scaleType="fitEnd"
+        android:layout_toEndOf="@id/tv_item_permissions_title"
+        android:src="@drawable/chevron_right" />
 
 </RelativeLayout>

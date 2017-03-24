@@ -18,7 +18,7 @@ import java.util.List;
 import static rx.Observable.from;
 
 /**
- * Created by New User on 20/03/2017.
+ * Created by Turlough on 20/03/2017.
  */
 
 public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.PermissionHolder>{
@@ -70,6 +70,12 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
             holder.ivSelect.setBackgroundResource(R.drawable.ic_no_permissions);
             holder.header.setBackgroundResource(R.drawable.tree_view_item_name_drawable_not_pressed);
         }
+
+        if(model.isLeaf())
+            holder.ivChevron.setVisibility(View.GONE);
+        else
+            holder.ivChevron.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -114,6 +120,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
     static class PermissionHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSelect;
+        ImageView ivChevron;
         TextView tvTitle;
         View rootView;
         RecyclerView lvChildren;
@@ -124,11 +131,12 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
             super(itemView);
             rootView = itemView;
             ivSelect = (ImageView) itemView.findViewById(R.id.iv_item_permissions);
+            ivChevron = (ImageView) itemView.findViewById(R.id.chevron);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_item_permissions_title);
             lvChildren = (RecyclerView) itemView.findViewById(R.id.lv_permission_children);
             header = (RelativeLayout) itemView.findViewById(R.id.tree_view_header);
 
-            lvChildren.setHasFixedSize(false);
+            lvChildren.setHasFixedSize(true);
         }
     }
 
