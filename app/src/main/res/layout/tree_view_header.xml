@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/tree_view_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/tree_view_item_name_drawable_not_pressed"
+                android:padding="10dp"
+                android:layout_marginTop="4dp"
+                tools:context="net.overc.android.treeview.MainActivity">
+
+    <ImageView
+        android:id="@+id/iv_item_permissions"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clickable="false"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_item_permissions_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+
+        android:layout_toEndOf="@id/iv_item_permissions"
+        android:paddingStart="15dp"
+        android:text="NAME"/>
+
+</RelativeLayout>

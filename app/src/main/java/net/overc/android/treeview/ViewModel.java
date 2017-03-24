@@ -1,19 +1,20 @@
 package net.overc.android.treeview;
 
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import static rx.Observable.from;
+
 /**
  * Created by New User on 20/03/2017.
  */
 
-public class ViewModel {
+public class ViewModel implements Comparable<ViewModel> {
 
    private Model model;
    private Collection<ViewModel> children = new HashSet<>();
@@ -21,6 +22,7 @@ public class ViewModel {
     private boolean expanded =false;
     private boolean selected = false;
     private View titleView;
+    TreeViewPopup popup;
 
     public ViewModel(Model model) {
         this.model = model;
@@ -50,23 +52,43 @@ public class ViewModel {
         return titleView;
     }
 
-    public void setTitleView(View view) {
+    public void setTitleView(View view, ImageView imageView, TreeViewPopup popup) {
+
         this.titleView = view;
-        this.titleView.setOnClickListener(v ->{
-            if(isLeaf()){
-                if(!selected){
-                    select();
-                    v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_pressed);
-                } else {
-                    setSelected(false);
-                    v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_not_pressed);
-                }
+        imageView.setOnClickListener(v -> {
 
-                return;
-            }
+            if(! selected) select();
+            else deselect();
 
-            new TreeViewPopup( v, this).show();
+            highlightSelection(imageView, v);
         });
+
+        view.setOnClickListener(v->{
+            if(isLeaf()){
+                if(! selected) select();
+                else deselect();
+                highlightSelection(imageView, v);
+            } else {
+                new TreeViewPopup( v, this, popup).show();
+            }
+        });
+    }
+
+    private void deselect() {
+        selected = false;
+        from(children)
+                .forEach(ViewModel::deselect);
+    }
+
+    private void highlightSelection(ImageView imageView, View v) {
+
+        if (selected) {
+            v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_pressed);
+            imageView.setBackgroundResource(R.drawable.ic_check_blue);
+        } else {
+            v.setBackgroundResource(R.drawable.tree_view_item_name_drawable_not_pressed);
+            imageView.setBackgroundResource(R.drawable.ic_no_permissions);
+        }
     }
 
     public void addChild(ViewModel viewModel){
@@ -93,7 +115,10 @@ public class ViewModel {
 
     public Collection<ViewModel> getChildren() {
 
-        return children;
+        return from(children)
+                .toSortedList()
+                .toBlocking()
+                .first();
     }
 
     public void setChildren(Set<ViewModel> children) {
@@ -113,6 +138,8 @@ public class ViewModel {
 
     public void select(){
         setSelected(true);
+        if(isNotRoot())
+            parent.select();
     }
 
     public void expand(){
@@ -134,4 +161,9 @@ public class ViewModel {
     }
 
 
+    @Override
+    public int compareTo(@NonNull ViewModel o) {
+
+        return getName().compareTo(o.getName());
+    }
 }

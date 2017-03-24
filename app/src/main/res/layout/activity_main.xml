@@ -7,18 +7,18 @@
                 tools:context="net.overc.android.treeview.MainActivity">
 
     <Button
-        android:id="@+id/name"
+        android:id="@+id/tv_item_permissions_title"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="NAME"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/children"
+        android:id="@+id/lv_permission_children"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/tv_item_permissions_title"
         android:layout_alignParentStart="true"
         android:layout_marginStart="25dp"/>
 

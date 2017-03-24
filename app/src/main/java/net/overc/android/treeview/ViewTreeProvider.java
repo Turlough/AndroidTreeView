@@ -47,13 +47,13 @@ class ViewTreeProvider {
     public Collection<ViewModel> getTopLevelItems() {
         return from(models.values())
                 .filter(ViewModel::isRoot)
-                .toList()
+                .toSortedList()
                 .toBlocking()
                 .first();
     }
     public Collection<ViewModel> getAllItems() {
         return from(models.values())
-                .toList()
+                .toSortedList()
                 .toBlocking()
                 .first();
     }

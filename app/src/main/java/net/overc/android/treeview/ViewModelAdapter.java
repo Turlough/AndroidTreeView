@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,17 +21,19 @@ import static rx.Observable.from;
  * Created by New User on 20/03/2017.
  */
 
-public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.PermissionHolder> {
+public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.PermissionHolder>{
 
     ViewTreeProvider provider;
     Context context;
     List<ViewModel> models = new ArrayList<>();
     ViewModelAdapter childAdapter;
+    TreeViewPopup popup;
 
-    public ViewModelAdapter(Context context){
+    public ViewModelAdapter(Context context, TreeViewPopup popup) {
+
         provider = ViewTreeProvider.getInstance();
         this.context = context;
-
+        this.popup = popup;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
         position = holder.getAdapterPosition();
         ViewModel model = models.get(position);
-        model.setTitleView(holder.tvTitle);
+        model.setTitleView(holder.header, holder.ivSelect, new TreeViewPopup(holder.header, model, popup));
 
         holder.tvTitle.setText(model.getName());
         LinearLayoutManager manager = new LinearLayoutManager(context);
@@ -56,15 +58,24 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
         if (model.isExpanded()) {
             showChildren(holder, model);
+            //holder.tvTitle.setVisibility(View.GONE);
         } else {
             holder.lvChildren.setVisibility(View.GONE);
         }
 
+        if (model.isSelected()) {
+            holder.ivSelect.setBackgroundResource(R.drawable.ic_check_blue);
+            holder.header.setBackgroundResource(R.drawable.tree_view_item_name_drawable_pressed);
+        } else {
+            holder.ivSelect.setBackgroundResource(R.drawable.ic_no_permissions);
+            holder.header.setBackgroundResource(R.drawable.tree_view_item_name_drawable_not_pressed);
+        }
     }
 
     @Override
     public int getItemCount() {
-        if(childAdapter != null)
+
+        if (childAdapter != null)
             return models.size() + childAdapter.getItemCount();
         else
             return models.size();
@@ -80,9 +91,9 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
     private void showChildren(PermissionHolder holder, ViewModel viewModel) {
 
-        if(viewModel.isLeaf()) return;
+        if (viewModel.isLeaf()) return;
 
-        childAdapter = new ViewModelAdapter(context);
+        childAdapter = new ViewModelAdapter(context, popup);
 
         holder.lvChildren.setAdapter(childAdapter);
         childAdapter.setData(viewModel.getChildren());
@@ -98,25 +109,29 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 //        notifyDataSetChanged();
     }
 
+
+
     static class PermissionHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSelect;
         TextView tvTitle;
         View rootView;
         RecyclerView lvChildren;
+        RelativeLayout header;
 
         public PermissionHolder(View itemView) {
 
             super(itemView);
             rootView = itemView;
-//            ivSelect = (ImageView) itemView.findViewById(R.id.iv_item_permissions);
-            tvTitle = (TextView) itemView.findViewById(R.id.name);
-            lvChildren = (RecyclerView) itemView.findViewById(R.id.children);
-
+            ivSelect = (ImageView) itemView.findViewById(R.id.iv_item_permissions);
+            tvTitle = (TextView) itemView.findViewById(R.id.tv_item_permissions_title);
+            lvChildren = (RecyclerView) itemView.findViewById(R.id.lv_permission_children);
+            header = (RelativeLayout) itemView.findViewById(R.id.tree_view_header);
 
             lvChildren.setHasFixedSize(false);
         }
     }
+
 }
 
 
