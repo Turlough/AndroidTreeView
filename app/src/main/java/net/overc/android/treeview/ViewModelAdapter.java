@@ -2,6 +2,7 @@ package net.overc.android.treeview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,13 +28,18 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
     Context context;
     List<ViewModel> models = new ArrayList<>();
     ViewModelAdapter childAdapter;
-    TreeViewPopup popup;
+    TreeViewPopup parentPopup;
 
-    public ViewModelAdapter(Context context, TreeViewPopup popup) {
+    /**
+     *
+     * @param context
+     * @param parentPopup if this popup was launched from a previous
+     */
+    public ViewModelAdapter(Context context, @Nullable TreeViewPopup parentPopup) {
 
         provider = ViewTreeProvider.getInstance();
         this.context = context;
-        this.popup = popup;
+        this.parentPopup = parentPopup;
     }
 
     @Override
@@ -49,16 +55,18 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
         position = holder.getAdapterPosition();
         ViewModel model = models.get(position);
-        model.setTitleView(holder.header, holder.ivSelect, new TreeViewPopup(holder.header, model, popup));
+        model.setTitleView(holder.header, holder.ivSelect, new TreeViewPopup(holder.header, model, parentPopup));
 
         holder.tvTitle.setText(model.getName());
+
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         holder.lvChildren.setLayoutManager(manager);
 
         if (model.isExpanded()) {
             showChildren(holder, model);
-            //holder.tvTitle.setVisibility(View.GONE);
+            holder.tvTitle.setVisibility(View.GONE);
+            holder.rootView.setVisibility(View.GONE);
         } else {
             holder.lvChildren.setVisibility(View.GONE);
         }
@@ -99,7 +107,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter<ViewModelAdapter.Perm
 
         if (viewModel.isLeaf()) return;
 
-        childAdapter = new ViewModelAdapter(context, popup);
+        childAdapter = new ViewModelAdapter(context, parentPopup);
 
         holder.lvChildren.setAdapter(childAdapter);
         childAdapter.setData(viewModel.getChildren());
